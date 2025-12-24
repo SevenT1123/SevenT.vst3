@@ -40,5 +40,4 @@ class SynthVoice : public juce::SynthesiserVoice {
 
         bool isPrepared{ false };
 
-
 };
