@@ -18,3 +18,4 @@
 - Decay: 0ms to 1s
 - Sustain: 0% to 100%
 - Release: 0ms to 1s
+<img width="1027" height="766" alt="seventvst3_screenshot" src="https://github.com/user-attachments/assets/c3667910-9378-43cf-ac2d-078d72639004" />
