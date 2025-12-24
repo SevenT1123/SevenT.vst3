@@ -36,10 +36,6 @@ class SynthVoice : public juce::SynthesiserVoice {
         OSCData osc;
         ADSRData adsr;
         FilterData filter;
-        // juce::dsp::Oscillator<float> osc{ [](float x) {return x / juce::MathConstants<float>::pi;}, 200 };
-        // return std::sin(x) // Sine wave
-        // return x / juce::MathConstants<float>::pi; // Saw wave
-        // return x < 0.0f ? -1.0f : 1.0f; // Square wave;
         juce::dsp::Gain<float> gain;
 
         bool isPrepared{ false };

@@ -41,12 +41,7 @@ void SevenTAudioProcessorEditor::paint (juce::Graphics& g)
         const int padding = 10;
 
         // Position in top right corner
-        juce::Rectangle<int> logoBounds(
-            getWidth() - logoWidth - padding,   // x position
-            padding,                            // y position
-            logoWidth,
-            logoHeight
-        );
+        juce::Rectangle<int> logoBounds(getWidth() - logoWidth - padding, padding, logoWidth, logoHeight); // (x pos, y pos, width, height)
 
         // Draw the image with transparency preserved
         g.drawImage(logo, logoBounds.toFloat(),
@@ -68,7 +63,7 @@ void SevenTAudioProcessorEditor::resized()
 
 void SevenTAudioProcessorEditor::loadLogoImage() {
     int dataSize = 0;
-    const char* imageData = BinaryData::sevent_blackwhite_250x250_png;  // Replace with your image name
+	const char* imageData = BinaryData::sevent_blackwhite_250x250_png;  // first by convert assets to Binary Source in Projucer
     dataSize = BinaryData::sevent_blackwhite_250x250_pngSize;
 
     if (imageData != nullptr && dataSize > 0)
