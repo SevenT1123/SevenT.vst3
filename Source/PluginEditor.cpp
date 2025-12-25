@@ -11,16 +11,14 @@
 
 //==============================================================================
 SevenTAudioProcessorEditor::SevenTAudioProcessorEditor (SevenTAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), osc(audioProcessor.apvts, "OSC1WAVETYPE", "OSC1VOLUME", "OSC1PHASEOFFSET", "OSC1DETUNE", "OSC1STEREO", "OSC1PAN")
+    : AudioProcessorEditor (&p), audioProcessor (p), osc(audioProcessor.apvts, "OSC1WAVETYPE", "OSC1VOLUME", "OSC1PHASEOFFSET", "OSC1PAN", "UNISONVOICES", "UNISONDETUNE", "UNISONBLEND", "UNISONSTEREO")
     , adsr("Amp Envelope", audioProcessor.apvts, "ATTACK", "DECAY", "SUSTAIN", "RELEASE")
     , filter(audioProcessor.apvts, "FILTERTYPE", "FILTERFREQ", "FILTERRES")
-    , unison(audioProcessor.apvts, "UNISONVOICES", "UNISONDETUNE", "UNISONBLEND", "UNISONSTEREO")
 {
     setSize(1024, 768);
     addAndMakeVisible(osc);
     addAndMakeVisible(adsr);
     addAndMakeVisible(filter);
-	addAndMakeVisible(unison);
 
     loadLogoImage();
 }
@@ -55,10 +53,9 @@ void SevenTAudioProcessorEditor::resized()
     const auto paddingY = 35;
     const auto paddingY2 = 370;
 
-    osc.setBounds(paddingX, paddingY, 300, 300);
+    osc.setBounds(paddingX, paddingY, 405, 300);
     adsr.setBounds(osc.getRight(), paddingY2, 250, 200);
     filter.setBounds(paddingX, paddingY2, 300, 200);
-    unison.setBounds(osc.getRight(), paddingY, 305, 175);
 }
 
 void SevenTAudioProcessorEditor::loadLogoImage() {

@@ -15,9 +15,11 @@
 OSCComponent::OSCComponent(juce::AudioProcessorValueTreeState& apvts, juce::String waveSelectorID, 
     juce::String oscVolumeId,
     juce::String oscPhaseOffsetId,
-    juce::String oscDetuneId,
-    juce::String oscStereoId,
-    juce::String oscPanId)
+    juce::String oscPanId, 
+    juce::String unisonVoicesID,
+    juce::String unisonDetuneID,
+    juce::String unisonBlendID,
+    juce::String unisonStereoID)
 {
     juce::StringArray choices{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw"};
     oscWaveSelector.addItemList(choices, 1);
@@ -31,14 +33,17 @@ OSCComponent::OSCComponent(juce::AudioProcessorValueTreeState& apvts, juce::Stri
     waveSelectorLabel.setJustificationType(juce::Justification::left);
     addAndMakeVisible(waveSelectorLabel);
 
-    // setSliderWithLabel(fmFreqSlider, fmFreqLabel, apvts, fmFreqID, fmFreqAttachment);
-    // setSliderWithLabel(fmDepthSlider, fmDepthLabel, apvts, fmDepthID, fmDepthAttachment);
 	setSliderWithLabel(oscVolumeSlider, oscVolumeLabel, apvts, oscVolumeId, oscVolumeAttachment);
 	setSliderWithLabel(oscPhaseOffsetSlider, oscPhaseOffsetLabel, apvts, oscPhaseOffsetId, oscPhaseOffsetAttachment);
-	setSliderWithLabel(oscDetuneSlider, oscDetuneLabel, apvts, oscDetuneId, oscDetuneAttachment);
-	setSliderWithLabel(oscStereoSlider, oscStereoLabel, apvts, oscStereoId, oscStereoAttachment);
 	setSliderWithLabel(oscPanSlider, oscPanLabel, apvts, oscPanId, oscPanAttachment);
 
+    // Unison parameters
+    setSliderWithLabel(unisonVoicesSlider, unisonVoicesLabel, apvts, unisonVoicesID, unisonVoicesAttachment);
+    setSliderWithLabel(unisonDetuneSlider, unisonDetuneLabel, apvts, unisonDetuneID, unisonDetuneAttachment);
+    setSliderWithLabel(unisonBlendSlider, unisonBlendLabel, apvts, unisonBlendID, unisonBlendAttachment);
+    setSliderWithLabel(unisonStereoSlider, unisonStereoLabel, apvts, unisonStereoID, unisonStereoAttachment);
+
+    unisonVoicesSlider.setNumDecimalPlacesToDisplay(0);
 }
 
 OSCComponent::~OSCComponent()
@@ -68,29 +73,30 @@ void OSCComponent::resized()
     oscWaveSelector.setBounds(10, startY + 10, 90, 30);
     waveSelectorLabel.setBounds(10, startY - labelYOffset, 90, labelHeight);
 
-    // fmFreqSlider.setBounds(oscWaveSelector.getRight(), startY, sliderWidth, sliderHeight);
-    // fmFreqLabel.setBounds(fmFreqSlider.getX(), fmFreqSlider.getY() - labelYOffset, fmFreqSlider.getWidth(), labelHeight);
-
-    // fmDepthSlider.setBounds(fmFreqSlider.getRight(), startY, sliderWidth, sliderHeight);
-    // fmDepthLabel.setBounds(fmDepthSlider.getX(), fmDepthSlider.getY() - labelYOffset, fmDepthSlider.getWidth(), labelHeight);
-
 	oscVolumeSlider.setBounds(oscWaveSelector.getRight(), startY, sliderWidth, sliderHeight);
 	oscVolumeLabel.setBounds(oscVolumeSlider.getX(), oscVolumeSlider.getY() - labelYOffset, oscVolumeSlider.getWidth(), labelHeight);
 
 	oscPhaseOffsetSlider.setBounds(oscVolumeSlider.getRight(), startY, sliderWidth, sliderHeight);
 	oscPhaseOffsetLabel.setBounds(oscPhaseOffsetSlider.getX(), oscPhaseOffsetSlider.getY() - labelYOffset, oscPhaseOffsetSlider.getWidth(), labelHeight);
 
-    const auto secondRowParam = oscVolumeSlider.getBottom() + labelYOffset + 10;
+    oscPanSlider.setBounds(oscPhaseOffsetSlider.getRight(), startY, sliderWidth, sliderHeight);
+    oscPanLabel.setBounds(oscPanSlider.getX(), oscPanSlider.getY() - labelYOffset, oscPanSlider.getWidth(), labelHeight);
 
+    // Bottom row: Unison controls
+    const auto secondRowY = oscVolumeSlider.getBottom() + 30;
+    const auto unisonLabelY = secondRowY - 25;
 
-	oscDetuneSlider.setBounds(3, secondRowParam, sliderWidth, sliderHeight);
-	oscDetuneLabel.setBounds(oscDetuneSlider.getX(), oscDetuneSlider.getY() - labelYOffset, oscDetuneSlider.getWidth(), labelHeight);
+    unisonVoicesSlider.setBounds(5, secondRowY, sliderWidth, sliderHeight);
+    unisonVoicesLabel.setBounds(unisonVoicesSlider.getX(), unisonVoicesSlider.getY() - labelYOffset, unisonVoicesSlider.getWidth(), labelHeight);
 
-	oscStereoSlider.setBounds(oscDetuneSlider.getRight(), secondRowParam, sliderWidth, sliderHeight);
-	oscStereoLabel.setBounds(oscStereoSlider.getX(), oscStereoSlider.getY() - labelYOffset, oscStereoSlider.getWidth(), labelHeight);
+    unisonDetuneSlider.setBounds(unisonVoicesSlider.getRight(), secondRowY, sliderWidth, sliderHeight);
+    unisonDetuneLabel.setBounds(unisonDetuneSlider.getX(), unisonDetuneSlider.getY() - labelYOffset, unisonDetuneSlider.getWidth(), labelHeight);
 
-	oscPanSlider.setBounds(oscStereoSlider.getRight(), secondRowParam, sliderWidth, sliderHeight);
-	oscPanLabel.setBounds(oscPanSlider.getX(), oscPanSlider.getY() - labelYOffset, oscPanSlider.getWidth(), labelHeight);
+    unisonBlendSlider.setBounds(unisonDetuneSlider.getRight(), secondRowY, sliderWidth, sliderHeight);
+    unisonBlendLabel.setBounds(unisonBlendSlider.getX(), unisonBlendSlider.getY() - labelYOffset, unisonBlendSlider.getWidth(), labelHeight);
+
+    unisonStereoSlider.setBounds(unisonBlendSlider.getRight(), secondRowY, sliderWidth, sliderHeight);
+    unisonStereoLabel.setBounds(unisonStereoSlider.getX(), unisonStereoSlider.getY() - labelYOffset, unisonStereoSlider.getWidth(), labelHeight);
 }
 
 void OSCComponent::setSliderWithLabel(juce::Slider& slider, juce::Label& label, juce::AudioProcessorValueTreeState& apvts, juce::String paramID, std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>& attachment) {

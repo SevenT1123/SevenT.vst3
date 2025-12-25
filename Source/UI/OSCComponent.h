@@ -20,10 +20,12 @@ class OSCComponent  : public juce::Component
 public:
     OSCComponent(juce::AudioProcessorValueTreeState& apvts, juce::String waveSelectorID, 
         juce::String oscVolumeId, 
-        juce::String oscPhaseOffsetId, 
-        juce::String oscDetuneId, 
-        juce::String oscStereoId, 
-        juce::String oscPanId);
+        juce::String oscPhaseOffsetId,  
+        juce::String oscPanId, 
+        juce::String unisonVoicesID,
+        juce::String unisonDetuneID,
+        juce::String unisonBlendID,
+        juce::String unisonStereoID);
     ~OSCComponent() override;
 
     void paint (juce::Graphics&) override;
@@ -33,33 +35,36 @@ private:
     juce::ComboBox oscWaveSelector;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> oscWaveSelectorAttachment;
 
-    // juce::Slider fmFreqSlider;
-    // juce::Slider fmDepthSlider;
     juce::Slider oscVolumeSlider;
     juce::Slider oscPhaseOffsetSlider;
-    juce::Slider oscDetuneSlider;
-    juce::Slider oscStereoSlider;
     juce::Slider oscPanSlider;
+
+    juce::Slider unisonVoicesSlider;
+    juce::Slider unisonDetuneSlider;
+    juce::Slider unisonBlendSlider;
+    juce::Slider unisonStereoSlider;
 
     using Attachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
-    // std::unique_ptr<Attachment> fmFreqAttachment;
-    // std::unique_ptr<Attachment> fmDepthAttachment;
     std::unique_ptr<Attachment> oscVolumeAttachment;
     std::unique_ptr<Attachment> oscPhaseOffsetAttachment;
-    std::unique_ptr<Attachment> oscDetuneAttachment;
-    std::unique_ptr<Attachment> oscStereoAttachment;
     std::unique_ptr<Attachment> oscPanAttachment;
+
+    std::unique_ptr<Attachment> unisonVoicesAttachment;
+    std::unique_ptr<Attachment> unisonDetuneAttachment;
+    std::unique_ptr<Attachment> unisonBlendAttachment;
+    std::unique_ptr<Attachment> unisonStereoAttachment;
 
     juce::Label waveSelectorLabel{ "Wave Type", "Wave Type" };
 
-    // juce::Label fmFreqLabel{ "FM Freq", "FM Freq" };
-    // juce::Label fmDepthLabel{ "FM Depth", "FM Depth" };
     juce::Label oscVolumeLabel{ "Volume", "Volume" };
     juce::Label oscPhaseOffsetLabel{ "Phase Offset", "Phase Offset" };
-    juce::Label oscDetuneLabel{ "Detune", "Detune" };
-    juce::Label oscStereoLabel{ "Stereo", "Stereo" };
     juce::Label oscPanLabel{ "Pan", "Pan" };
+
+    juce::Label unisonVoicesLabel{ "Voices", "Voices" };
+    juce::Label unisonDetuneLabel{ "Detune", "Detune" };
+    juce::Label unisonBlendLabel{ "Blend", "Blend" };
+    juce::Label unisonStereoLabel{ "Width", "Width" };
 
     void setSliderWithLabel(juce::Slider& slider, juce::Label& label, juce::AudioProcessorValueTreeState& apvts, juce::String paramID, std::unique_ptr<Attachment>& attachment);
 

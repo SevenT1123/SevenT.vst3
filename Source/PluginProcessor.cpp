@@ -165,8 +165,6 @@ void SevenTAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             auto& oscWaveChoice = *apvts.getRawParameterValue("OSC1WAVETYPE");
 			auto& oscVolume = *apvts.getRawParameterValue("OSC1VOLUME");
 			auto& oscPhaseOffset = *apvts.getRawParameterValue("OSC1PHASEOFFSET");
-			auto& oscDetune = *apvts.getRawParameterValue("OSC1DETUNE");
-			auto& oscStereo = *apvts.getRawParameterValue("OSC1STEREO");
 			auto& oscPan = *apvts.getRawParameterValue("OSC1PAN");
 
             // Unison
@@ -188,8 +186,6 @@ void SevenTAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             voice->getOscillator().setWaveType(oscWaveChoice);
 			voice->getOscillator().setVolume(oscVolume.load()); // Atomic float
 			voice->getOscillator().setPhaseOffset(oscPhaseOffset.load()); // Atomic float
-			voice->getOscillator().setDetune(oscDetune.load()); // Atomic float
-			voice->getOscillator().setStereo(oscStereo.load()); // Atomic float
 			voice->getOscillator().setPan(oscPan.load()); // Atomic float
             voice->getOscillator().setUnisonVoices(static_cast<int>(unisonVoices.load()));
             voice->getOscillator().setUnisonDetune(unisonDetune.load());
@@ -293,8 +289,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout SevenTAudioProcessor::create
 	// Oscillator parameters
 	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1VOLUME", "Osc 1 Volume", juce::NormalisableRange<float> {0.0f, 0.125f, 0.0125f}, 0.125f));  
 	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1PHASEOFFSET", "Osc 1 Phase Offset", juce::NormalisableRange<float> {-juce::MathConstants<float>::pi, juce::MathConstants<float>::pi, 0.01f}, 0.0f));  
-	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1DETUNE", "Osc 1 Detune", juce::NormalisableRange<float> {-100.0f, 100.0f, 0.1f}, 0.0f));
-	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1STEREO", "Osc 1 Stereo", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.5f)); // 0.0 mono, 1.0 wide
 	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1PAN", "Osc 1 Pan", juce::NormalisableRange<float> {-1.0f, 1.0f, 0.01f}, 0.0f)); // -1.0 left, 0.0 center, +1.0 right
 
     // ADSR 

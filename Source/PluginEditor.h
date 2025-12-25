@@ -13,7 +13,6 @@
 #include "UI/ADSRComponent.h"
 #include "UI/OSCComponent.h"
 #include "UI/FilterComponent.h"
-#include "UI/UnisonComponent.h"
 
 
 //==============================================================================
@@ -36,7 +35,6 @@ private:
     OSCComponent osc;
     ADSRComponent adsr;
     FilterComponent filter;
-	UnisonComponent unison;
     
     juce::Image logo;
 	void loadLogoImage();

@@ -82,8 +82,7 @@ void OSCData::setWaveFrequency(const int midiNoteNumber) {
     float baseFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 
     for (int i = 0; i < numVoices; ++i) {
-        float totalDetune = cents + unison.getDetuneForVoice(i);
-        float detuneRatio = std::pow(2.0f, totalDetune / 1200.0f);
+        float detuneRatio = std::pow(2.0f, unison.getDetuneForVoice(i) / 1200.0f);
         unisonOscillators[i].setFrequency(baseFreq * detuneRatio);
     }
 }
@@ -150,18 +149,6 @@ void OSCData::setPhaseOffset(float phaseOffset) {
         this->phaseOffset = phaseOffset;
         setWaveType(currentWaveType);
     }
-}
-
-void OSCData::setDetune(float cents) {
-    if (this->cents != cents) {
-        this->cents = cents;
-        if (lastMidiNote > 0) {
-            setWaveFrequency(lastMidiNote);
-        }
-    }
-}
-void OSCData::setStereo(float stereo) {
-    this->stereo = stereo;
 }
 
 void OSCData::setPan(float pan) {

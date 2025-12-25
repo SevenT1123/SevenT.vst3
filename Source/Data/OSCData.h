@@ -22,14 +22,10 @@ class OSCData : juce::dsp::Oscillator<float> {
 
         void setVolume(float volume);
         void setPhaseOffset(float phaseOffset); 
-        void setDetune(float cents);
-        void setStereo(float stereo);
         void setPan(float pan);
 
         float getVolume() const { return volume; };
-        float getPhaseOffset() const { return phaseOffset; };
-        float getDetune() const { return cents; };
-        float getStereo() const { return stereo; };
+        float getPhaseOffset() const { return phaseOffset; };;
         float getPan() const { return pan; };
 
         void setUnisonVoices(int voices);
@@ -43,8 +39,6 @@ class OSCData : juce::dsp::Oscillator<float> {
 
         float volume{ 0.0f }; // 0.0 silent, 1.0 full
         float phaseOffset{ 0.0f }; // in radians
-        float cents{ 0.0f };
-        float stereo{ 0.0f }; // 0.0 mono, 1.0 wide
         float pan{ 0.0f }; // -1.0 left, 0.0 center, +1.0 right
 
         UnisonData unison;
