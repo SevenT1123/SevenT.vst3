@@ -30,22 +30,33 @@ FilterComponent::~FilterComponent()
 
 void FilterComponent::paint (juce::Graphics& g)
 {
+    auto bounds = getLocalBounds().reduced(5);
+    auto labelSpace = bounds.removeFromTop(25.0f);
+
     g.fillAll(juce::Colours::black);
+    g.setColour(juce::Colours::white);
+    g.setFont(20.0f);
+    g.drawText("Filter", labelSpace.withX(5), juce::Justification::left);
+    g.drawRoundedRectangle(bounds.toFloat(), 5.0f, 2.0f);
 }
 
 void FilterComponent::resized()
 {
-    const auto sliderPosY = 55;
+    const auto startY = 40;
+    const auto padding = 10;
     const auto sliderWidth = 100;
     const auto sliderHeight = 90;
     const auto labelYOffset = 20;
     const auto labelHeight = 20;
 
-    filterTypeSelector.setBounds(10, 0, 90, 30);
-    filterFreqSlider.setBounds(10, sliderPosY, 90, sliderHeight);
+    filterTypeSelector.setBounds(10, startY, 90, 30);
+
+    const auto sliderPosY = filterTypeSelector.getBottom();
+
+    filterFreqSlider.setBounds(10, sliderPosY + labelYOffset + padding, 90, sliderHeight);
     filterFreqLabel.setBounds(filterFreqSlider.getX(), filterFreqSlider.getY() - labelYOffset, filterFreqSlider.getWidth(), labelHeight);
 
-    filterResSlider.setBounds(filterFreqSlider.getRight(), sliderPosY, sliderWidth, sliderHeight);
+    filterResSlider.setBounds(filterFreqSlider.getRight(), sliderPosY + labelYOffset + padding, sliderWidth, sliderHeight);
     filterResLabel.setBounds(filterResSlider.getX(), filterResSlider.getY() - labelYOffset, filterResSlider.getWidth(), labelHeight);
 }
 
