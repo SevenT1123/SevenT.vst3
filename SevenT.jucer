@@ -31,10 +31,6 @@
         <FILE id="TBh6i8" name="OSCComponent.cpp" compile="1" resource="0"
               file="Source/UI/OSCComponent.cpp"/>
         <FILE id="NcdIKB" name="OSCComponent.h" compile="0" resource="0" file="Source/UI/OSCComponent.h"/>
-        <FILE id="zyTESC" name="UnisonComponent.cpp" compile="1" resource="0"
-              file="Source/UI/UnisonComponent.cpp"/>
-        <FILE id="AES7Td" name="UnisonComponent.h" compile="0" resource="0"
-              file="Source/UI/UnisonComponent.h"/>
       </GROUP>
       <FILE id="RiWhEp" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="thQmpE" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>

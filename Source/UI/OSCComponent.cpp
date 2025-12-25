@@ -49,7 +49,6 @@ OSCComponent::OSCComponent(juce::AudioProcessorValueTreeState& apvts, juce::Stri
 OSCComponent::~OSCComponent()
 {
 }
-
 void OSCComponent::paint (juce::Graphics& g)
 {
     auto bounds = getLocalBounds().reduced(5);
