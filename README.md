@@ -18,4 +18,4 @@
 - Decay: 0ms to 1s
 - Sustain: 0% to 100%
 - Release: 0ms to 1s
-<img width="1027" height="766" alt="seventvst3_screenshot2" src="Pictures/seventvst3_screenshot2_" />
+<img width="1027" height="766" alt="seventvst3_screenshot2" src="Pictures/seventvst3_screenshot_2" />
