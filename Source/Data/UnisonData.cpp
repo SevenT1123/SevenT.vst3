@@ -83,7 +83,6 @@ float UnisonData::getAmplitudeForVoice(int voiceIndex) const {
 
 void UnisonData::updatePhaseOffsets() {
     // Generate random phase offsets for each possible unison voice
-    juce::Random random;
     for (int i = 0; i < maxUnison; ++i) {
         phaseOffsets[i] = random.nextFloat() * juce::MathConstants<float>::twoPi;
     }

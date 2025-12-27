@@ -41,5 +41,7 @@ class UnisonData : public juce::dsp::Oscillator<float> {
 
 		std::array<float, maxUnison> phaseOffsets;
 
+		juce::Random random;
+
 		void updatePhaseOffsets();
 };
