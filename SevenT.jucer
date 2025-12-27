@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="lxHS7I" name="SevenT" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              companyName="SevenT" pluginManufacturerCode="Kh04" pluginCode="Tr4n">
   <MAINGROUP id="jMl29J" name="SevenT">
     <GROUP id="{BB303486-A8BF-378E-100E-370268960D0F}" name="Source">
       <GROUP id="{2BD88567-9C65-77D1-EB4D-7A239E8F6E28}" name="assets">
