@@ -17,6 +17,7 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
     // adsr.reset(); // Testing adsr smoothness
     osc.setWaveFrequency(midiNoteNumber);
+    osc2.setWaveFrequency(midiNoteNumber);
     adsr.noteOn();
 }
 
@@ -44,6 +45,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     spec.numChannels = outputChannels;
 
     osc.prepareToPlay(spec);
+    osc2.prepareToPlay(spec);
     filter.prepareToPlay(sampleRate, samplesPerBlock, outputChannels);
     gain.prepare(spec);
 
@@ -67,10 +69,23 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
 
     juce::dsp::AudioBlock<float> audioBlock{ synthBuffer };
     osc.getNextAudioBlock(audioBlock);
+
+    // add osc2 output to later mix with osc1
+    juce::AudioBuffer<float> osc2Buffer(outputBuffer.getNumChannels(), numSamples);
+    osc2Buffer.clear();
+    juce::dsp::AudioBlock<float> osc2Block{ osc2Buffer };
+    osc2.getNextAudioBlock(osc2Block);
+
+    // mix osc2 to main buffer
+    for (int channel = 0; channel < synthBuffer.getNumChannels(); ++channel) {
+        synthBuffer.addFrom(channel, 0, osc2Buffer, channel, 0, numSamples);
+    }
+
     filter.process(synthBuffer);
     adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
+    // add to output buffer
     for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
         outputBuffer.addFrom(channel, startSample, synthBuffer, channel, 0, numSamples);
     }

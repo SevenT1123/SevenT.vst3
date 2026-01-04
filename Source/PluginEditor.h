@@ -33,6 +33,7 @@ private:
     // access the processor object that created it.
     SevenTAudioProcessor& audioProcessor;
     OSCComponent osc;
+    OSCComponent osc2;
     ADSRComponent adsr;
     FilterComponent filter;
     

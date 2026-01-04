@@ -27,6 +27,7 @@ class SynthVoice : public juce::SynthesiserVoice {
         void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
         void update(const float attack, const float decay, const float sustain, const float release);
         OSCData& getOscillator() { return osc; }
+        OSCData& getOscillator2() { return osc2; }
         ADSRData& getAdsr() { return adsr; }
         FilterData& getFilter() { return filter; }
 
@@ -34,6 +35,7 @@ class SynthVoice : public juce::SynthesiserVoice {
         juce::AudioBuffer<float> synthBuffer;
 
         OSCData osc;
+        OSCData osc2;   
         ADSRData adsr;
         FilterData filter;
         juce::dsp::Gain<float> gain;
