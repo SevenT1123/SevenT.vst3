@@ -330,10 +330,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout SevenTAudioProcessor::create
     params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2UNISONSTEREO", "Osc 2 Unison Stereo", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.5f));
 
     // ADSR 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> {0.0f, 1.0f, 0.001f}, 0.005f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> {0.0f, 1.0f, 0.001f}, 0.05f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange<float> {0.0f, 1.0f, 0.001f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float> {0.0f, 1.0f, 0.001f}, 1.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float> {0.0f, 1.0f, 0.001f}, 0.005f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float> {0.0f, 2.0f, 0.001f}, 0.05f));
 
     // Filter
     params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "Bypass", "Low-Pass", "Band-Pass", "High-Pass" }, 0));
