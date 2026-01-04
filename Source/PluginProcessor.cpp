@@ -161,17 +161,29 @@ void SevenTAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
-            // Osc control
+            // Osc 1 control
             auto& oscWaveChoice = *apvts.getRawParameterValue("OSC1WAVETYPE");
 			auto& oscVolume = *apvts.getRawParameterValue("OSC1VOLUME");
 			auto& oscPhaseOffset = *apvts.getRawParameterValue("OSC1PHASEOFFSET");
 			auto& oscPan = *apvts.getRawParameterValue("OSC1PAN");
 
-            // Unison
-            auto& unisonVoices = *apvts.getRawParameterValue("UNISONVOICES");
-            auto& unisonDetune = *apvts.getRawParameterValue("UNISONDETUNE");
-            auto& unisonBlend = *apvts.getRawParameterValue("UNISONBLEND");
-            auto& unisonStereo = *apvts.getRawParameterValue("UNISONSTEREO");
+            // Unison 1
+            auto& unisonVoices = *apvts.getRawParameterValue("OSC1UNISONVOICES");
+            auto& unisonDetune = *apvts.getRawParameterValue("OSC1UNISONDETUNE");
+            auto& unisonBlend = *apvts.getRawParameterValue("OSC1UNISONBLEND");
+            auto& unisonStereo = *apvts.getRawParameterValue("OSC1UNISONSTEREO");
+
+            // Osc 2 control
+            auto& osc2WaveChoice = *apvts.getRawParameterValue("OSC2WAVETYPE");
+            auto& osc2Volume = *apvts.getRawParameterValue("OSC2VOLUME");
+            auto& osc2PhaseOffset = *apvts.getRawParameterValue("OSC2PHASEOFFSET");
+            auto& osc2Pan = *apvts.getRawParameterValue("OSC2PAN");
+
+            // Unison 2
+            auto& osc2UnisonVoices = *apvts.getRawParameterValue("OSC2UNISONVOICES");
+            auto& osc2UnisonDetune = *apvts.getRawParameterValue("OSC2UNISONDETUNE");
+            auto& osc2UnisonBlend = *apvts.getRawParameterValue("OSC2UNISONBLEND");
+            auto& osc2UnisonStereo = *apvts.getRawParameterValue("OSC2UNISONSTEREO");
 
             // ADSR
             auto& attack = *apvts.getRawParameterValue("ATTACK");
@@ -191,6 +203,16 @@ void SevenTAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             voice->getOscillator().setUnisonDetune(unisonDetune.load());
             voice->getOscillator().setUnisonBlend(unisonBlend.load());
             voice->getOscillator().setUnisonStereo(unisonStereo.load());
+
+            voice->getOscillator2().setWaveType(osc2WaveChoice);
+            voice->getOscillator2().setVolume(osc2Volume.load());
+            voice->getOscillator2().setPhaseOffset(osc2PhaseOffset.load());
+            voice->getOscillator2().setPan(osc2Pan.load());
+            voice->getOscillator2().setUnisonVoices(static_cast<int>(osc2UnisonVoices.load()));
+            voice->getOscillator2().setUnisonDetune(osc2UnisonDetune.load());
+            voice->getOscillator2().setUnisonBlend(osc2UnisonBlend.load());
+            voice->getOscillator2().setUnisonStereo(osc2UnisonStereo.load());
+
             voice->update(attack.load(), decay.load(), sustain.load(), release.load());     // Atomic float
         }
     }
@@ -283,13 +305,29 @@ juce::AudioProcessorValueTreeState::ParameterLayout SevenTAudioProcessor::create
 
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
-    // Oscillator selection
+    // Oscillator 1 selection
     params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC1WAVETYPE", "Osc 1 Wave Type", juce::StringArray{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw" }, 0, ""));
-
-	// Oscillator parameters
+	// Oscillator 1 parameters
 	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1VOLUME", "Osc 1 Volume", juce::NormalisableRange<float> {0.0f, 0.125f, 0.0125f}, 0.125f));  
 	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1PHASEOFFSET", "Osc 1 Phase Offset", juce::NormalisableRange<float> {-juce::MathConstants<float>::pi, juce::MathConstants<float>::pi, 0.01f}, 0.0f));  
-	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1PAN", "Osc 1 Pan", juce::NormalisableRange<float> {-1.0f, 1.0f, 0.01f}, 0.0f)); // -1.0 left, 0.0 center, +1.0 right
+	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1PAN", "Osc 1 Pan", juce::NormalisableRange<float> {-1.0f, 1.0f, 0.01f}, 0.0f)); // -1.0 left, 0.0 center, +1.0 
+    // Unison 1
+    params.push_back(std::make_unique<juce::AudioParameterInt>("OSC1UNISONVOICES", "Unison Voices", 1, 16, 1));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1UNISONDETUNE", "Unison Detune", juce::NormalisableRange<float> {0.0f, 100.0f, 0.1f}, 10.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1UNISONBLEND", "Unison Blend", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1UNISONSTEREO", "Unison Stereo", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.5f));
+
+    // Oscillator 2 selection
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC2WAVETYPE", "Osc 2 Wave Type", juce::StringArray{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw" }, 1, ""));
+    // Oscillator 2 parameters
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2VOLUME", "Osc 2 Volume", juce::NormalisableRange<float> {0.0f, 0.125f, 0.0125f}, 0.0625f));  // Default half volume
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2PHASEOFFSET", "Osc 2 Phase Offset", juce::NormalisableRange<float> {-juce::MathConstants<float>::pi, juce::MathConstants<float>::pi, 0.01f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2PAN", "Osc 2 Pan", juce::NormalisableRange<float> {-1.0f, 1.0f, 0.01f}, 0.0f));
+    // Unison 2
+    params.push_back(std::make_unique<juce::AudioParameterInt>("OSC2UNISONVOICES", "Osc 2 Unison Voices", 1, 16, 1));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2UNISONDETUNE", "Osc 2 Unison Detune", juce::NormalisableRange<float> {0.0f, 100.0f, 0.1f}, 10.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2UNISONBLEND", "Osc 2 Unison Blend", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2UNISONSTEREO", "Osc 2 Unison Stereo", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.5f));
 
     // ADSR 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> {0.0f, 1.0f, 0.001f}, 0.005f));
@@ -301,12 +339,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout SevenTAudioProcessor::create
     params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "Bypass", "Low-Pass", "Band-Pass", "High-Pass" }, 0));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERFREQ", "Filter Freq", juce::NormalisableRange<float> {20.0f, 20000.0f, 0.1f, 0.6f}, 200.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERRES", "Filter Resonance", juce::NormalisableRange<float> {1.0f, 10.0f, 0.1f}, 1.0f));
-
-    // Unison
-    params.push_back(std::make_unique<juce::AudioParameterInt>("UNISONVOICES", "Unison Voices", 1, 16, 1));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("UNISONDETUNE", "Unison Detune", juce::NormalisableRange<float> {0.0f, 100.0f, 0.1f}, 10.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("UNISONBLEND", "Unison Blend", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("UNISONSTEREO", "Unison Stereo", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.5f));
 
     return { params.begin(), params.end() };
 }
