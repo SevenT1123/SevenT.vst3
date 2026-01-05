@@ -62,11 +62,16 @@ void OSCData::setWaveType(const int choice) {
             unisonOscillators[i].initialise([unisonPhase](float x) {
                 float p = ((x + unisonPhase) + juce::MathConstants<float>::pi) / (2.0f * juce::MathConstants<float>::pi);
                 if (p < 0.5f)
-                    return 4.0f * p - 1.0f;
+                    return (x + unisonPhase) / juce::MathConstants<float>::pi;
                 else
-                    return 3.0f - 4.0f * p;
+                    return (2.0f / juce::MathConstants<float>::pi) * std::asin(std::sin(x + unisonPhase - p));
                 });
             break;
+        case 7: // White noise
+            unisonOscillators[i].initialise([](float x) {
+                static juce::Random whiteNoise;
+                return whiteNoise.nextFloat() * 2.0f - 1.0f;
+                });
         default:
             unisonOscillators[i].initialise([](float x) { return std::sin(x); });
             break;
