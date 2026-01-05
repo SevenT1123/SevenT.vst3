@@ -23,4 +23,4 @@
 - Save, Load, Delete
 - Directory of presets (on Windows OS): Documents\SevenT\Presets
 - Preset file type: .xml
-<img width="1025" height="763" alt="seventvst3_screenshot_2" src="https://github.com/user-attachments/assets/9b97d7ff-a78a-43a3-bc85-71a1545de5c3" />
+<img width="1024" height="765" alt="seventvst3" src="https://github.com/user-attachments/assets/98ebe59b-5f68-42b1-af35-ba0799fdfde6" />
