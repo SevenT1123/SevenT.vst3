@@ -21,7 +21,7 @@ OSCComponent::OSCComponent(juce::AudioProcessorValueTreeState& apvts, juce::Stri
     juce::String unisonBlendID,
     juce::String unisonStereoID)
 {
-    juce::StringArray choices{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw"};
+    juce::StringArray choices{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw", "White Noise"};
     oscWaveSelector.addItemList(choices, 1);
     addAndMakeVisible(oscWaveSelector);
 

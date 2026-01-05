@@ -306,7 +306,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SevenTAudioProcessor::create
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
     // Oscillator 1 selection
-    params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC1WAVETYPE", "Osc 1 Wave Type", juce::StringArray{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw" }, 0, ""));
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC1WAVETYPE", "Osc 1 Wave Type", juce::StringArray{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw", "White Noise"}, 0, ""));
 	// Oscillator 1 parameters
 	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1VOLUME", "Osc 1 Volume", juce::NormalisableRange<float> {0.0f, 0.125f, 0.0125f}, 0.125f));  
 	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1PHASEOFFSET", "Osc 1 Phase Offset", juce::NormalisableRange<float> {-juce::MathConstants<float>::pi, juce::MathConstants<float>::pi, 0.01f}, 0.0f));  
@@ -318,7 +318,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SevenTAudioProcessor::create
     params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1UNISONSTEREO", "Unison Stereo", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.5f));
 
     // Oscillator 2 selection
-    params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC2WAVETYPE", "Osc 2 Wave Type", juce::StringArray{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw" }, 1, ""));
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC2WAVETYPE", "Osc 2 Wave Type", juce::StringArray{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw", "White Noise"}, 1, ""));
     // Oscillator 2 parameters
     params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2VOLUME", "Osc 2 Volume", juce::NormalisableRange<float> {0.0f, 0.125f, 0.0125f}, 0.0625f));  // Default half volume
     params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2PHASEOFFSET", "Osc 2 Phase Offset", juce::NormalisableRange<float> {-juce::MathConstants<float>::pi, juce::MathConstants<float>::pi, 0.01f}, 0.0f));
