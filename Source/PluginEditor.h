@@ -13,6 +13,7 @@
 #include "UI/ADSRComponent.h"
 #include "UI/OSCComponent.h"
 #include "UI/FilterComponent.h"
+#include "UI/PresetComponent.h"
 
 
 //==============================================================================
@@ -32,6 +33,7 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     SevenTAudioProcessor& audioProcessor;
+    PresetComponent presetComponent;
     OSCComponent osc;
     OSCComponent osc2;
     ADSRComponent adsr;

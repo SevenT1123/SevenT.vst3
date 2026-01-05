@@ -12,6 +12,7 @@
 #include "SynthVoice.h"
 #include "SynthSound.h"
 #include "Data/FilterData.h"
+#include "Data/PresetLoad.h"
 
 //==============================================================================
 /**
@@ -58,9 +59,12 @@ public:
 
     juce::AudioProcessorValueTreeState apvts;
 
+    PresetLoad& getPresetLoad() { return presetLoad; }
+
 private:
     juce::Synthesiser synth;
     FilterData filter;
+    PresetLoad presetLoad;
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SevenTAudioProcessor)

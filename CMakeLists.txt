@@ -70,6 +70,8 @@ target_sources(SevenT
         Source/Data/FilterData.h
         Source/Data/OSCData.cpp
         Source/Data/OSCData.h
+        Source/Data/PresetLoad.cpp
+        Source/Data/PresetLoad.h
         Source/Data/UnisonData.cpp
         Source/Data/UnisonData.h
         
@@ -80,6 +82,8 @@ target_sources(SevenT
         Source/UI/FilterComponent.h
         Source/UI/OSCComponent.cpp
         Source/UI/OSCComponent.h
+        Source/UI/PresetComponent.cpp
+        Source/UI/PresetComponent.h
 )
 
 # Preprocessor definitions

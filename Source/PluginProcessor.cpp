@@ -19,7 +19,7 @@ SevenTAudioProcessor::SevenTAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       ), apvts(*this, nullptr, "Parameters", createParameters())
+                       ), apvts(*this, nullptr, "Parameters", createParameters()), presetLoad(apvts)
 #endif
 {
     synth.clearVoices();

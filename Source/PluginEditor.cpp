@@ -11,12 +11,14 @@
 
 //==============================================================================
 SevenTAudioProcessorEditor::SevenTAudioProcessorEditor (SevenTAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), osc(audioProcessor.apvts, "OSC1WAVETYPE", "OSC1VOLUME", "OSC1PHASEOFFSET", "OSC1PAN", "OSC1UNISONVOICES", "OSC1UNISONDETUNE", "OSC1UNISONBLEND", "OSC1UNISONSTEREO")
+    : AudioProcessorEditor (&p), audioProcessor (p), presetComponent(p.getPresetLoad())
+    , osc(audioProcessor.apvts, "OSC1WAVETYPE", "OSC1VOLUME", "OSC1PHASEOFFSET", "OSC1PAN", "OSC1UNISONVOICES", "OSC1UNISONDETUNE", "OSC1UNISONBLEND", "OSC1UNISONSTEREO")
     , osc2(audioProcessor.apvts, "OSC2WAVETYPE", "OSC2VOLUME", "OSC2PHASEOFFSET", "OSC2PAN", "OSC2UNISONVOICES", "OSC2UNISONDETUNE", "OSC2UNISONBLEND", "OSC2UNISONSTEREO")
     , adsr("Amp Envelope", audioProcessor.apvts, "ATTACK", "DECAY", "SUSTAIN", "RELEASE")
     , filter(audioProcessor.apvts, "FILTERTYPE", "FILTERFREQ", "FILTERRES")
 {
     setSize(1024, 768);
+    addAndMakeVisible(presetComponent);
     addAndMakeVisible(osc);
     addAndMakeVisible(osc2);
     addAndMakeVisible(adsr);
@@ -52,8 +54,14 @@ void SevenTAudioProcessorEditor::paint (juce::Graphics& g)
 void SevenTAudioProcessorEditor::resized()
 {
     const auto paddingX = 5;
-    const auto paddingY = 35;
-    const auto paddingY2 = 370;
+    const auto paddingY = 50;
+    const auto paddingY2 = paddingY + 350;
+    const int presetPanelWidth = 500;
+    const auto presetPanelHeight = 40;
+    const int presetPanelX = (getWidth() - presetPanelWidth) / 2;
+    const int presetPanelY = 10;
+
+    presetComponent.setBounds(presetPanelX, presetPanelY, presetPanelWidth, presetPanelHeight);
 
     osc.setBounds(paddingX, paddingY, 405, 300);
     osc2.setBounds(osc.getRight(), paddingY, 405, 300);
