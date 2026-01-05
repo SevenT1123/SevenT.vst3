@@ -18,6 +18,8 @@
         <FILE id="edfze2" name="FilterData.h" compile="0" resource="0" file="Source/Data/FilterData.h"/>
         <FILE id="LJG5IS" name="OSCData.cpp" compile="1" resource="0" file="Source/Data/OSCData.cpp"/>
         <FILE id="Q9RVZs" name="OSCData.h" compile="0" resource="0" file="Source/Data/OSCData.h"/>
+        <FILE id="zGuPht" name="PresetLoad.cpp" compile="1" resource="0" file="Source/Data/PresetLoad.cpp"/>
+        <FILE id="hCEtQV" name="PresetLoad.h" compile="0" resource="0" file="Source/Data/PresetLoad.h"/>
         <FILE id="qClqDU" name="UnisonData.cpp" compile="1" resource="0" file="Source/Data/UnisonData.cpp"/>
         <FILE id="zlzZvQ" name="UnisonData.h" compile="0" resource="0" file="Source/Data/UnisonData.h"/>
       </GROUP>
@@ -32,6 +34,10 @@
         <FILE id="TBh6i8" name="OSCComponent.cpp" compile="1" resource="0"
               file="Source/UI/OSCComponent.cpp"/>
         <FILE id="NcdIKB" name="OSCComponent.h" compile="0" resource="0" file="Source/UI/OSCComponent.h"/>
+        <FILE id="a0Bib9" name="PresetComponent.cpp" compile="1" resource="0"
+              file="Source/UI/PresetComponent.cpp"/>
+        <FILE id="rpi86H" name="PresetComponent.h" compile="0" resource="0"
+              file="Source/UI/PresetComponent.h"/>
       </GROUP>
       <FILE id="RiWhEp" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="thQmpE" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>
