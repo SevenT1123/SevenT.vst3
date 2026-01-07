@@ -308,7 +308,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SevenTAudioProcessor::create
     // Oscillator 1 selection
     params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC1WAVETYPE", "Osc 1 Wave Type", juce::StringArray{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw", "White Noise"}, 0, ""));
 	// Oscillator 1 parameters
-	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1VOLUME", "Osc 1 Volume", juce::NormalisableRange<float> {0.0f, 0.125f, 0.0125f}, 0.125f));  
+	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1VOLUME", "Osc 1 Volume", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 1.0f));  
 	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1PHASEOFFSET", "Osc 1 Phase Offset", juce::NormalisableRange<float> {-juce::MathConstants<float>::pi, juce::MathConstants<float>::pi, 0.01f}, 0.0f));  
 	params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC1PAN", "Osc 1 Pan", juce::NormalisableRange<float> {-1.0f, 1.0f, 0.01f}, 0.0f)); // -1.0 left, 0.0 center, +1.0 
     // Unison 1
@@ -320,7 +320,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SevenTAudioProcessor::create
     // Oscillator 2 selection
     params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC2WAVETYPE", "Osc 2 Wave Type", juce::StringArray{ "Sine", "Saw", "Triangle", "Pulse", "H-Pulse", "Q-Pulse", "TriSaw", "White Noise"}, 1, ""));
     // Oscillator 2 parameters
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2VOLUME", "Osc 2 Volume", juce::NormalisableRange<float> {0.0f, 0.125f, 0.0125f}, 0.0625f));  // Default half volume
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2VOLUME", "Osc 2 Volume", juce::NormalisableRange<float> {0.0f, 1.0f, 0.01f}, 0.0f));  // Default half volume
     params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2PHASEOFFSET", "Osc 2 Phase Offset", juce::NormalisableRange<float> {-juce::MathConstants<float>::pi, juce::MathConstants<float>::pi, 0.01f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("OSC2PAN", "Osc 2 Pan", juce::NormalisableRange<float> {-1.0f, 1.0f, 0.01f}, 0.0f));
     // Unison 2
