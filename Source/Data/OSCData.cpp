@@ -60,6 +60,7 @@ void OSCData::setWaveType(const int choice) {
             break;
         case 6: // TriSaw
             unisonOscillators[i].initialise([unisonPhase](float x) {
+                // Normalizing period from 2pi to 1
                 float p = ((x + unisonPhase) + juce::MathConstants<float>::pi) / (2.0f * juce::MathConstants<float>::pi);
                 if (p < 0.5f)
                     return (x + unisonPhase) / juce::MathConstants<float>::pi;
