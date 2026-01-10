@@ -32,7 +32,7 @@ class UnisonData : public juce::dsp::Oscillator<float> {
 		float getPhaseForVoice(int voiceIndex) const;
 		float getAmplitudeForVoice(int voiceIndex) const;
     private:
-		static constexpr int maxUnison = 16;
+		static const int maxUnison = 16;
 
 		int unisonVoices = 1;
 		float unisonDetune = 0.0f; // 0.0 to 100.0 
