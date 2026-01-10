@@ -17,6 +17,6 @@ class ADSRData : public juce::ADSR {
         void updateADSR(const float attack, const float decay, const float sustain, const float release);
 
     private:
+        const float minADSRTime = 0.002f; // 2 ms for ADR to prevent clicks
         juce::ADSR::Parameters adsrParameters;
-		static constexpr float maxADSRTime = 0.001f; // 1 ms for ADR to prevent clicks
 };

@@ -35,7 +35,7 @@ class OSCData : juce::dsp::Oscillator<float> {
         UnisonData& getUnison() { return unison; };
     private:
         int lastMidiNote{ 0 };
-		static constexpr int maxUnison = 16;
+		static const int maxUnison = 16;
 
         float volume{ 0.0f }; // 0.0 silent, 1.0 full
         float phaseOffset{ 0.0f }; // in radians

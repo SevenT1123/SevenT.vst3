@@ -11,10 +11,10 @@
 #include "ADSRData.h"
 
 void ADSRData::updateADSR(const float attack, const float decay, const float sustain, const float release) {
-    adsrParameters.attack = juce::jmax(attack, maxADSRTime);
-    adsrParameters.decay = juce::jmax(decay, maxADSRTime);
+    adsrParameters.attack = juce::jmax(attack, minADSRTime);
+    adsrParameters.decay = juce::jmax(decay, minADSRTime);
     adsrParameters.sustain = sustain;
-    adsrParameters.release = juce::jmax(release, maxADSRTime);
+    adsrParameters.release = juce::jmax(release, minADSRTime);
 
     setParameters(adsrParameters);
 }
