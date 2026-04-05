@@ -21,7 +21,6 @@ void PresetLoad::savePreset(const juce::String& name) {
     auto presetFolder = getDefaultPresetFolder();
     auto presetFile = presetFolder.getChildFile(name + ".xml");
 
-    // copy synth params to seperate xml
     auto state = apvts.copyState();
 
     std::unique_ptr<juce::XmlElement> xml(state.createXml());
@@ -89,7 +88,6 @@ juce::File PresetLoad::getPresetFolder() const {
 }
 
 juce::File PresetLoad::getDefaultPresetFolder() const {
-    // Directory: Documents\SevenT\Presets
     auto documentPath = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
     return documentPath.getChildFile("SevenT").getChildFile("Presets");
 }

@@ -19,7 +19,7 @@ void UnisonData::prepareToPlay(juce::dsp::ProcessSpec& spec) {
 }
 
 void UnisonData::setUnisonVoices(int voices) {
-    unisonVoices = juce::jlimit(1, 16, voices);
+    unisonVoices = juce::jlimit(1, maxUnison, voices);
 }
 
 void UnisonData::setUnisonDetune(float cents) {
@@ -38,12 +38,7 @@ float UnisonData::getDetuneForVoice(int voiceIndex) const {
     if (unisonVoices <= 1)
         return 0.0f;
 
-    // Distribute voices evenly from -detune to +detune
     float normalizedPosition = (voiceIndex - (unisonVoices - 1) * 0.5f) / (unisonVoices - 1);
-
-    // Apply detune with blend control
-    // When blend = 0, only outer voices are detuned
-    // When blend = 1, all voices are equally distributed
     float blendFactor = 1.0f - unisonBlend * (1.0f - std::abs(normalizedPosition));
 
     return normalizedPosition * unisonDetune * 2.0f * blendFactor;
@@ -53,10 +48,8 @@ float UnisonData::getPanForVoice(int voiceIndex) const {
     if (unisonVoices <= 1)
         return 0.0f;
 
-    // Distribute voices across stereo field
     float normalizedPosition = (voiceIndex - (unisonVoices - 1) * 0.5f) / (unisonVoices - 1);
 
-    // Apply stereo width control
     return normalizedPosition * unisonStereo;
 }
 
@@ -82,7 +75,6 @@ float UnisonData::getAmplitudeForVoice(int voiceIndex) const {
 }
 
 void UnisonData::updatePhaseOffsets() {
-    // Generate random phase offsets for each possible unison voice
     for (int i = 0; i < maxUnison; ++i) {
         phaseOffsets[i] = random.nextFloat() * juce::MathConstants<float>::twoPi;
     }
