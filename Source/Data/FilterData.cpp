@@ -34,18 +34,18 @@ void FilterData::process(juce::AudioBuffer<float>& buffer) {
 
 void FilterData::updateParameters(const int filterType, const float frequency, const float resonance) {
     switch (filterType) {
-    case 0:
+    case FILTER_BYPASS:
         bypass = true;
         filter.reset();
         filter.snapToZero();
         return;
-    case 1:
+    case FILTER_LOWPASS:
         filter.setType(juce::dsp::StateVariableTPTFilterType::lowpass);
         break;
-    case 2:
+        case FILTER_BANDPASS:
         filter.setType(juce::dsp::StateVariableTPTFilterType::bandpass);
         break;
-    case 3:
+    case FILTER_HIGHPASS:
         filter.setType(juce::dsp::StateVariableTPTFilterType::highpass);
         break;
     }

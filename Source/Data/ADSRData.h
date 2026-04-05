@@ -14,9 +14,14 @@
 
 class ADSRData : public juce::ADSR {
     public:
+        /* 
+        * void updateADSR(const float attack, const float decay, const float sustain, const float release) 
+        * @brief: Updates the ADSR parameters from adsrParameters struct.
+        * @param: const float attack, const float decay, const float sustain, const float release. New values for the ADSR parameters 
+        */
         void updateADSR(const float attack, const float decay, const float sustain, const float release);
 
     private:
-        const float minADSRTime = 0.002f; // 2 ms for ADR to prevent clicks
+        const float minADSRTime = 0.002f; 
         juce::ADSR::Parameters adsrParameters;
 };

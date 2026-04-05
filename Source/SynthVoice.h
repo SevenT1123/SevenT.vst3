@@ -26,6 +26,7 @@ class SynthVoice : public juce::SynthesiserVoice {
         void prepareToPlay(double sampleRate, int samplePerBlock, int outputChannels);
         void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
         void update(const float attack, const float decay, const float sustain, const float release);
+		// Getter functions for the oscillator, ADSR, and filter data
         OSCData& getOscillator() { return osc; }
         OSCData& getOscillator2() { return osc2; }
         ADSRData& getAdsr() { return adsr; }
