@@ -24,3 +24,6 @@
 - Directory of presets (on Windows OS): Documents\SevenT\Presets
 - Preset file type: .xml
 <img width="1024" height="765" alt="seventvst3" src="https://github.com/user-attachments/assets/98ebe59b-5f68-42b1-af35-ba0799fdfde6" />
+
+## Demo Video
+https://youtu.be/7wpr-dfgW2I?si=eDxMKDvUEBsH2zu5
