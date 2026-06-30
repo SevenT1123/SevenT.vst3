@@ -49,6 +49,16 @@ juce_add_plugin(SevenT
     PRODUCT_NAME "SevenT"
 )
 
+# JuceHeader.h
+juce_generate_juce_header(SevenT)
+
+# Binary files
+juce_add_binary_data(SevenTBinaryData
+        SOURCES
+        Source/assets/sevent_blackwhite_250x250.png
+        Source/assets/sevent_whiteblack_250x250.png
+)
+
 # Source files
 target_sources(SevenT
     PRIVATE
@@ -102,6 +112,7 @@ target_compile_definitions(SevenT
 # Link JUCE modules
 target_link_libraries(SevenT
     PRIVATE
+        SevenTBinaryData
         juce::juce_audio_basics
         juce::juce_audio_devices
         juce::juce_audio_formats

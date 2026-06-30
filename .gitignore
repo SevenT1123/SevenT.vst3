@@ -365,3 +365,7 @@ FodyWeavers.xsd
 # Builds and JuceLibraryCode
 Builds/
 JuceLibraryCode/
+
+# CMake build output
+/build/
+/cmake-build-*/
