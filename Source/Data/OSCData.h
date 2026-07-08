@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "PolyBLEPOscillator.h"
 #include "UnisonData.h"
 
 class OSCData : juce::dsp::Oscillator<float> {
@@ -56,7 +57,7 @@ class OSCData : juce::dsp::Oscillator<float> {
         UnisonData& getUnison() { return unison; };
     private:
         int lastMidiNote{ 0 };
-		static const int maxUnison = 16;
+		static constexpr int maxUnison = 16;
 
         // @params: float volume in [0.0, 1.0], float phaseOffset in [-pi, pi], float pan in [-1.0, 1.0] where -1.0 is full left and 1.0 is full right.
         float volume{ 0.0f }; 
@@ -75,7 +76,7 @@ class OSCData : juce::dsp::Oscillator<float> {
 		};
 
         UnisonData unison;
-        std::array<juce::dsp::Oscillator<float>, 16> unisonOscillators;
+        std::array<PolyBLEPOscillator, 16> unisonOscillators;
         int currentWaveType{ 0 };
         juce::dsp::ProcessSpec currentSpec;
 };

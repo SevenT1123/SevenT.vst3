@@ -34,6 +34,7 @@ class SynthVoice : public juce::SynthesiserVoice {
 
     private:
         juce::AudioBuffer<float> synthBuffer;
+        juce::AudioBuffer<float> osc2Buffer;
 
         OSCData osc;
         OSCData osc2;   

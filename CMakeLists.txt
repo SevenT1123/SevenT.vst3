@@ -84,6 +84,8 @@ target_sources(SevenT
         Source/Data/PresetLoad.h
         Source/Data/UnisonData.cpp
         Source/Data/UnisonData.h
+        Source/Data/PolyBLEPOscillator.h
+        Source/Data/PolyBLEPOscillator.cpp
         
         # UI Components
         Source/UI/ADSRComponent.cpp
