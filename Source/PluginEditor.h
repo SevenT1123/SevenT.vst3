@@ -38,9 +38,20 @@ private:
     OSCComponent osc2;
     ADSRComponent adsr;
     FilterComponent filter;
+
+    static constexpr int width = 1024;
+    static constexpr int height = 768;
     
     juce::Image logo;
 	void loadLogoImage();
+
+    using Attachment = juce::AudioProcessorValueTreeState::SliderAttachment;
+
+    juce::Slider polyphonySlider;
+    juce::Label polyphonyLabel{ "Polyphony", "Polyphony" };
+    std::unique_ptr<Attachment> polyphonyAttachment;
+
+    void setSliderWithLabel(juce::Slider& slider, juce::Label& label, juce::AudioProcessorValueTreeState& apvts, juce::String paramID, std::unique_ptr<Attachment>& attachment);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SevenTAudioProcessorEditor)
 };

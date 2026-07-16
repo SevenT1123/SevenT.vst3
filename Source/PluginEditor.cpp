@@ -17,12 +17,14 @@ SevenTAudioProcessorEditor::SevenTAudioProcessorEditor (SevenTAudioProcessor& p)
     , adsr("Amp Envelope", audioProcessor.apvts, "ATTACK", "DECAY", "SUSTAIN", "RELEASE")
     , filter(audioProcessor.apvts, "FILTERTYPE", "FILTERFREQ", "FILTERRES")
 {
-    setSize(1024, 768);
+    setSize(width, height);
     addAndMakeVisible(presetComponent);
     addAndMakeVisible(osc);
     addAndMakeVisible(osc2);
     addAndMakeVisible(adsr);
     addAndMakeVisible(filter);
+
+    setSliderWithLabel(polyphonySlider, polyphonyLabel, audioProcessor.apvts, "POLYPHONY", polyphonyAttachment);
 
     loadLogoImage();
 }
@@ -61,12 +63,19 @@ void SevenTAudioProcessorEditor::resized()
     const int presetPanelX = (getWidth() - presetPanelWidth) / 2;
     const int presetPanelY = 10;
 
+    const auto sliderWidth = 100;
+    const auto sliderHeight = 90;
+    const auto labelYOffset = 20;
+    const auto labelHeight = 20;
+
     presetComponent.setBounds(presetPanelX, presetPanelY, presetPanelWidth, presetPanelHeight);
 
     osc.setBounds(paddingX, paddingY, 405, 300);
     osc2.setBounds(osc.getRight(), paddingY, 405, 300);
     adsr.setBounds(osc.getRight(), paddingY2, 250, 200);
     filter.setBounds(paddingX, paddingY2, 300, 200);
+    polyphonySlider.setBounds(width - sliderWidth - paddingX, height - sliderHeight - labelHeight, sliderWidth, sliderHeight);
+    polyphonyLabel.setBounds(polyphonySlider.getX(), polyphonySlider.getY() - labelYOffset, polyphonySlider.getWidth(), labelHeight);
 }
 
 void SevenTAudioProcessorEditor::loadLogoImage() {
@@ -78,4 +87,18 @@ void SevenTAudioProcessorEditor::loadLogoImage() {
     {
         logo = juce::ImageFileFormat::loadFrom(imageData, dataSize);
     }
+}
+
+void SevenTAudioProcessorEditor::setSliderWithLabel(juce::Slider& slider, juce::Label& label, juce::AudioProcessorValueTreeState& apvts, juce::String paramID, std::unique_ptr<Attachment>& attachment)
+{
+    slider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
+    addAndMakeVisible(slider);
+
+    attachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(apvts, paramID, slider);
+
+    label.setColour(juce::Label::ColourIds::textColourId, juce::Colours::white);
+    label.setFont(15.0f);
+    label.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(label);
 }

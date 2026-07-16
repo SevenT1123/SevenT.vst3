@@ -26,8 +26,13 @@ SevenTAudioProcessor::SevenTAudioProcessor()
 	synth.clearSounds();
 
     synth.addSound(new SynthSound());
-    for (int i = 0; i < 8; ++i) // Add 8 voices
-        synth.addVoice(new SynthVoice());
+    for (int i = 0; i < 8; ++i)
+    {
+        auto* voice = new SynthVoice();
+        voice->setVoiceIndex(i);
+        voice->setPolyphonyLimit(&polyphonyLimit);
+        synth.addVoice(voice);
+    }
 
 }
 
@@ -158,6 +163,9 @@ void SevenTAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
+
+    auto& polyphonyParam = *apvts.getRawParameterValue(("POLYPHONY"));
+    polyphonyLimit.store(static_cast<int>(polyphonyParam.load()));
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
@@ -334,6 +342,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout SevenTAudioProcessor::create
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange<float> {0.0f, 1.0f, 0.001f}, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float> {0.0f, 1.0f, 0.001f}, 1.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float> {0.0f, 2.0f, 0.001f}, 0.05f));
+
+    // Polyphony
+    params.push_back(std::make_unique<juce::AudioParameterInt>("POLYPHONY", "Polyphony", 1, maxVoices, maxVoices));
 
     // Filter
     params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "Bypass", "Low-Pass", "Band-Pass", "High-Pass" }, 0));

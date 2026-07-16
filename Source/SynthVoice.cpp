@@ -11,6 +11,9 @@
 #include "SynthVoice.h"
 
 bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
+    if (polyphonyLimit != nullptr && voiceIndex >= polyphonyLimit->load())
+        return false;
+
     return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
 }
 
