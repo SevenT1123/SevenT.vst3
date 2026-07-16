@@ -76,7 +76,7 @@ class UnisonData : public juce::dsp::Oscillator<float> {
 		*/
 		float getAmplitudeForVoice(int voiceIndex) const;
     private:
-		static const int maxUnison = 16;
+		static constexpr int maxUnison = 16;
 
 		/* @params
 		* int unisonVoices: Number of unison voices [1,maxUnison]

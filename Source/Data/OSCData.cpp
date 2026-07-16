@@ -23,58 +23,8 @@ void OSCData::setWaveType(const int choice) {
     currentWaveType = choice;
 
     for (int i = 0; i < maxUnison; ++i) {
-        float unisonPhase = phaseOffset + unison.getPhaseForVoice(i);
-
-        switch (choice) {
-        case SINE: 
-            unisonOscillators[i].initialise([unisonPhase](float x) {
-                return std::sin(x + unisonPhase);
-                });
-            break;
-        case SAW: 
-            unisonOscillators[i].initialise([unisonPhase](float x) {
-                return (x + unisonPhase) / juce::MathConstants<float>::pi;
-                });
-            break;
-        case TRIANGLE: 
-            unisonOscillators[i].initialise([unisonPhase](float x) {
-                return (2.0f / juce::MathConstants<float>::pi) * std::asin(std::sin(x + unisonPhase));
-                });
-            break;
-        case PULSE: 
-            unisonOscillators[i].initialise([unisonPhase](float x) {
-                return (x + unisonPhase) < 0.0f ? -1.0f : 1.0f;
-                });
-            break;
-        case HALF_PULSE: 
-            unisonOscillators[i].initialise([unisonPhase](float x) {
-                return (x + unisonPhase) < -juce::MathConstants<float>::pi * 0.5f ? -1.0f : 1.0f;
-                });
-            break;
-        case QUARTER_PULSE: 
-            unisonOscillators[i].initialise([unisonPhase](float x) {
-                return (x + unisonPhase) < -juce::MathConstants<float>::pi * 0.25f ? -1.0f : 1.0f;
-                });
-            break;
-        case TRIANGLE_SAW: 
-            unisonOscillators[i].initialise([unisonPhase](float x) {
-                // Normalizing period from [0, 2pi] to [0, 1]
-                float p = ((x + unisonPhase) + juce::MathConstants<float>::pi) / (2.0f * juce::MathConstants<float>::pi);
-                if (p < 0.5f)
-                    return (x + unisonPhase) / juce::MathConstants<float>::pi;
-                else
-                    return (2.0f / juce::MathConstants<float>::pi) * std::asin(std::sin(x + unisonPhase - p));
-                });
-            break;
-        case WHITE_NOISE: // Will be fixed
-            unisonOscillators[i].initialise([](float x) {
-                static juce::Random whiteNoise;
-                return whiteNoise.nextFloat() * 2.0f - 1.0f;
-                });
-        default:
-            unisonOscillators[i].initialise([](float x) { return std::sin(x); });
-            break;
-        }
+        unisonOscillators[i].setWaveType(static_cast<PolyBLEPOscillator::WaveType>(choice));
+        unisonOscillators[i].setPhaseOffset(phaseOffset + unison.getPhaseForVoice(i));
     }
 }
 
@@ -98,42 +48,20 @@ void OSCData::getNextAudioBlock(juce::dsp::AudioBlock<float>& block)
 
     block.clear();
 
-    juce::AudioBuffer<float> tempBuffer(numChannels, numSamples);
-
     for (int v = 0; v < numVoices; ++v) {
-        tempBuffer.clear();
-        juce::dsp::AudioBlock<float> tempBlock(tempBuffer);
-
-        unisonOscillators[v].process(juce::dsp::ProcessContextReplacing<float>(tempBlock));
-
         float voiceAmplitude = unison.getAmplitudeForVoice(v);
-        float voicePan = pan + unison.getPanForVoice(v);
-        voicePan = juce::jlimit(-1.0f, 1.0f, voicePan);
+        float voicePan = juce::jlimit(-1.0f, 1.0f, pan + unison.getPanForVoice(v));
+        float panPosition = (voicePan + 1.0f) / 2.0f;
+        float leftGain = std::cos(panPosition * juce::MathConstants<float>::halfPi);
+        float rightGain = std::sin(panPosition * juce::MathConstants<float>::halfPi);
+        float finalGain = volume * voiceAmplitude;
 
-        for (int channel = 0; channel < numChannels; ++channel) {
-            float panGain = 1.0f;
+        for (size_t i = 0; i < numSamples; ++i) {
+            float sample = unisonOscillators[v].getNextSample() * finalGain;
 
-            if (numChannels == 2) {
-                // Convert -1..1 to 0..1
-                float panPosition = (voicePan + 1.0f) / 2.0f; 
-
-                if (channel == 0) { 
-                    // Left channel
-                    panGain = std::cos(panPosition * juce::MathConstants<float>::halfPi);
-                }
-                else { 
-                    // Right channel
-                    panGain = std::sin(panPosition * juce::MathConstants<float>::halfPi);
-                }
-            }
-
-            auto* tempData = tempBuffer.getWritePointer(channel);
-            auto* blockData = block.getChannelPointer((size_t)channel);
-
-            float finalGain = volume * voiceAmplitude * panGain;
-
-            for (int i = 0; i < numSamples; ++i) {
-                blockData[i] += tempData[i] * finalGain;
+            for (size_t channel = 0; channel < numChannels; ++channel) {
+                float panGain = (numChannels == 2) ? (channel == 0 ? leftGain : rightGain) : 1.0f;
+                block.getChannelPointer(channel)[i] += sample * panGain;
             }
         }
     }

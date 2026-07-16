@@ -62,10 +62,12 @@ public:
     PresetLoad& getPresetLoad() { return presetLoad; }
 
 private:
+    static constexpr int maxVoices = 8;
     juce::Synthesiser synth;
     FilterData filter;
     PresetLoad presetLoad;
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+    std::atomic<int> polyphonyLimit { maxVoices };
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SevenTAudioProcessor)
 };

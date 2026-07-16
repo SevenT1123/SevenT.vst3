@@ -11,6 +11,9 @@
 #include "SynthVoice.h"
 
 bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) {
+    if (polyphonyLimit != nullptr && voiceIndex >= polyphonyLimit->load())
+        return false;
+
     return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
 }
 
@@ -48,8 +51,10 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     osc2.prepareToPlay(spec);
     filter.prepareToPlay(sampleRate, samplesPerBlock, outputChannels);
     gain.prepare(spec);
-
     gain.setGainLinear(1.0f);
+
+    synthBuffer.setSize(outputChannels, samplesPerBlock, false, false, true);
+    osc2Buffer.setSize(outputChannels, samplesPerBlock, false, false, true);
     
     isPrepared = true;
 }
@@ -71,7 +76,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     osc.getNextAudioBlock(audioBlock);
 
     // add osc2 output to later mix with osc1
-    juce::AudioBuffer<float> osc2Buffer(outputBuffer.getNumChannels(), numSamples);
+    osc2Buffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
     osc2Buffer.clear();
     juce::dsp::AudioBlock<float> osc2Block{ osc2Buffer };
     osc2.getNextAudioBlock(osc2Block);

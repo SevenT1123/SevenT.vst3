@@ -1,5 +1,8 @@
 ﻿# SevenT.vst3
 
+## Polyphony
+- Range: 1 to 8
+ 
 ## Oscillation
 - Oscillator: 2
 - Waveform: Sine, Saw, Triangle, Pulse, Half Pulse, Quarter Pulse, Triangle Saw
